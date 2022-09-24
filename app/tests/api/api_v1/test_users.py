@@ -11,8 +11,8 @@ from app.schemas.user import RoleEnum
 from app.tests.utils.utils import random_email, random_lower_string
 
 
-def test_get_all_users(client, test_users):
-    response = client.get(f"{settings.API_V1_STR}/users")
+def test_get_all_users(client, test_users, superuser_token_headers):
+    response = client.get(f"{settings.API_V1_STR}/users", headers=superuser_token_headers)
 
     def validate(user):
         return schemas.User(**user)
@@ -111,3 +111,8 @@ def test_retrieve_users(
     assert len(all_users) > 1
     for item in all_users:
         assert "email" in item
+
+
+def test_delete_users(client: TestClient, test_users, superuser_token_headers: dict, session: Session):
+    r = client.delete(f"{settings.API_V1_STR}/users/delete/{test_users[1].id}", headers=superuser_token_headers)
+    assert r.status_code == 204

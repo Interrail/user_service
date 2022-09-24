@@ -7,7 +7,7 @@ from pydantic import BaseSettings, AnyHttpUrl, validator, HttpUrl, PostgresDsn, 
 class Settings(BaseSettings):
     API_V1_STR: str = '/api/v1'
     SECRET_KEY: str = secrets.token_urlsafe(32)
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60*24
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     SERVER_NAME: str = "user_service"
     SERVER_HOST: AnyHttpUrl = 'http://localhost'
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
@@ -30,10 +30,10 @@ class Settings(BaseSettings):
             return None
         return v
 
-    POSTGRES_SERVER: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "12345"
-    POSTGRES_DB: str = "user_service"
+    POSTGRES_SERVER: str = ""
+    POSTGRES_USER: str = ""
+    POSTGRES_PASSWORD: str = ""
+    POSTGRES_DB: str = ""
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
@@ -80,6 +80,7 @@ class Settings(BaseSettings):
     USERS_OPEN_REGISTRATION: bool = True
 
     class Config:
+        env_file = '.env'
         case_sensitive = True
 
 

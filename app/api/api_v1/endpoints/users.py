@@ -4,13 +4,12 @@ from fastapi import APIRouter, Depends, HTTPException, Body
 from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
-
+from starlette import status
+from starlette.responses import Response
 from app import schemas, models, crud
 from app.api import deps
 from app.core.config import settings
-from app.db.init_db import init_db
 from app.schemas.user import RoleEnum
-from app.utils import send_new_account_email
 
 router = APIRouter()
 
@@ -20,7 +19,7 @@ def read_users(
         db: Session = Depends(deps.get_db),
         skip: int = 0,
         limit: int = 100,
-        # current_user: models.User = Depends(deps.get_current_active_superuser),
+        current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Retrieve users.
@@ -151,3 +150,16 @@ def update_user(
         )
     user = crud.user.update(db, db_obj=user, obj_in=user_in)
     return user
+
+
+@router.delete("/delete/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user(user_id: int, db: Session = Depends(deps.get_db),
+                current_user: models.User = Depends(deps.get_current_active_superuser)):
+    user = crud.user.get(db, id=user_id)
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail="The user with this username does not exist in the system",
+        )
+    crud.user.delete(db=db, pk=user_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
