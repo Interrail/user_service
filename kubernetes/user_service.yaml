@@ -4,6 +4,9 @@ metadata:
   name: user-service
   labels:
     app: user-service
+  annotations:
+    fluxcd.io/tag.user-service: semver:~1.0
+    fluxcd.io/automated: 'true'
 spec:
   replicas: 1
   selector:
@@ -16,7 +19,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: izzattilla706/user_service:latest
+          image: izzattilla706/user_service:1.0.1
           ports:
             - containerPort: 8000
           env:
