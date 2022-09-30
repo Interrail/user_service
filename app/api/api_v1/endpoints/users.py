@@ -137,7 +137,7 @@ def update_user(
         db: Session = Depends(deps.get_db),
         user_id: int,
         user_in: schemas.UserUpdate,
-        current_user: models.User = Depends(deps.get_current_active_user),
+        # current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Update a user.

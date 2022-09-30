@@ -53,7 +53,7 @@ class Settings(BaseSettings):
     SMTP_HOST: Optional[str] = ''
     SMTP_USER: Optional[str] = ''
     SMTP_PASSWORD: Optional[str] = ''
-    EMAILS_FROM_EMAIL: Optional[EmailStr] = ''
+    EMAILS_FROM_EMAIL: Optional[EmailStr] = 'izzattilla706@gmail.com'
     EMAILS_FROM_NAME: Optional[str] = None
 
     @validator("EMAILS_FROM_NAME")
@@ -74,8 +74,8 @@ class Settings(BaseSettings):
             and values.get("EMAILS_FROM_EMAIL")
         )
 
-    EMAIL_TEST_USER: EmailStr = ""  # type: ignore
-    FIRST_SUPERUSER: EmailStr = ""  # type: ignore
+    EMAIL_TEST_USER: EmailStr = "izzattilla706@gmail.com"  # type: ignore
+    FIRST_SUPERUSER: EmailStr = "superuser@example.com"  # type: ignore
     FIRST_SUPERUSER_PASSWORD: str = ""
     USERS_OPEN_REGISTRATION: bool = True
 
