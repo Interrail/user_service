@@ -152,14 +152,14 @@ def update_user(
     return user
 
 
-# @router.delete("/delete/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
-# def delete_user(user_id: int, db: Session = Depends(deps.get_db),
-#                 current_user: models.User = Depends(deps.get_current_active_superuser)):
-#     user = crud.user.get(db, id=user_id)
-#     if not user:
-#         raise HTTPException(
-#             status_code=404,
-#             detail="The user with this username does not exist in the system",
-#         )
-#     crud.user.delete(db=db, pk=user_id)
-#     return Response(status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/delete/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user(user_id: int, db: Session = Depends(deps.get_db),
+                current_user: models.User = Depends(deps.get_current_active_superuser)):
+    user = crud.user.get(db, id=user_id)
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail="The user with this username does not exist in the system",
+        )
+    crud.user.delete(db=db, pk=user_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

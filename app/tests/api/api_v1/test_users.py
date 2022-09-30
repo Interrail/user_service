@@ -113,6 +113,6 @@ def test_retrieve_users(
         assert "email" in item
 
 
-# def test_delete_users(client: TestClient, test_users, superuser_token_headers: dict, session: Session):
-#     r = client.delete(f"{settings.API_V1_STR}/delete/{test_users[1].id}", headers=superuser_token_headers)
-#     assert r.status_code == 204
+def test_delete_users(client: TestClient, test_users, superuser_token_headers: dict, session: Session):
+    r = client.delete(f"{settings.API_V1_STR}/delete/{test_users[1].id}", headers=superuser_token_headers)
+    assert r.status_code == 204
