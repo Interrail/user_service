@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: user-service
-        image: izzattilla706/user_service:1.0.1
+        image: izzattilla706/user_service:1.0.2
         ports:
         - containerPort: 8000
         env:
