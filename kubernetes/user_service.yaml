@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,32 +19,32 @@ spec:
         app: user-service
     spec:
       containers:
-        - name: user-service
-          image: izzattilla706/user_service:1.0.2
-          ports:
-            - containerPort: 8000
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_PASSWORD
-            - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_DB
+      - name: user-service
+        image: izzattilla706/user_service:1.0.1
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-secret
+              key: POSTGRES_DB
 
-            - name: POSTGRES_SERVER
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-secret
-                  key: DATABASE_URL
+        - name: POSTGRES_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-secret
+              key: DATABASE_URL
 ---
 apiVersion: v1
 kind: Service
@@ -54,6 +55,6 @@ spec:
     app: user-service
   type: LoadBalancer
   ports:
-    - port: 8000
-      targetPort: 8000
-      nodePort: 30000
+  - port: 8000
+    targetPort: 8000
+    nodePort: 30000
