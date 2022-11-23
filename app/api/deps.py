@@ -27,7 +27,9 @@ def get_db() -> Generator:
 async def get_current_user(
         db: Session = Depends(get_db), token: str = Depends(reusable_oauth2)
 ) -> models.User:
+    # try:
     payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[security.ALGORITHM])
+    print(token)
     token_data = schemas.TokenPayload(**payload)
     # except (jwt.JWTError, ValidationError):
     #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Could not validate credentials.")
