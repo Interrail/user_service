@@ -24,7 +24,7 @@ def get_db() -> Generator:
         db.close()
 
 
-def get_current_user(
+async def get_current_user(
         db: Session = Depends(get_db), token: str = Depends(reusable_oauth2)
 ) -> models.User:
     try:
@@ -40,7 +40,7 @@ def get_current_user(
     return user
 
 
-def get_current_active_user(
+async def get_current_active_user(
         current_user: models.User = Depends(get_current_user),
 ) -> models.User:
     if not crud.user.is_active(current_user):
@@ -48,7 +48,7 @@ def get_current_active_user(
     return current_user
 
 
-def get_current_active_superuser(
+async def get_current_active_superuser(
         current_user: models.User = Depends(get_current_user),
 ) -> models.User:
     if not crud.user.is_superuser(current_user):
